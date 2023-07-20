@@ -1,0 +1,63 @@
+﻿@model List<Borrower>
+@{
+    int i = 1;
+}
+@inject IBorrowerRepository context
+
+<div class="d-flex justify-content-end m-3 mb-4">
+    <a asp-action="Add" class="btn btn-primary">Add New Borrower</a>
+</div>
+<table class="table table-striped table-bordered ">
+    <thead>
+        <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">Borrower Name</th>
+            <th class="text-center">Borrowed Books</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var borrower in Model)
+        {
+            <tr id="id-@borrower.Code">
+                <td class="text-center">@(i++)</td>
+                <td class="text-center">@borrower.Name</td>
+                <td class="text-center">@context.GetBooksCount(borrower.Code)</td>
+
+                <td class="text-center">
+                    <a asp-action="Edit" asp-route-id="@borrower.Code" style="cursor:pointer" class="btn btn-warning">Edit</a>
+                    <a style="cursor:pointer" onclick="deleteBorrower(@borrower.Code)" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts{
+
+    <script>
+        function deleteBorrower(id) {
+            var borrowerId = `#id-${id}`
+            $.ajax({
+                url: '/Borrower/Delete?id='+id,
+                method: 'GET',
+                success: function (response) {
+                    let row = document.querySelector(borrowerId)
+                    let body = document.querySelector('tbody')
+                    body.removeChild(row);
+                    //Swal.fire({
+                    //    title: 'تم الحذف',s
+                    //    text: `تم حذف الموظف`,
+                    //    icon: 'success',
+                    //    confirmButtonText: 'حسناً'
+                    //})
+                    console.log('Request succeeded:', response);
+                },
+                error: function (xhr, status, error) {
+                    console.log("Can't delete this book")
+                }
+            });
+        }
+    </script>
+}

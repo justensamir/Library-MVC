@@ -1,0 +1,70 @@
+﻿@model List<Book>
+@{
+    int i = 1;
+}
+@inject IBookRepository context
+
+<div class="d-flex justify-content-end m-3 mb-4">
+    <a asp-action="Add" class="btn btn-primary">Add New Book</a>
+</div>
+<table class="table table-striped table-bordered ">
+    <thead>
+        <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">Book Name</th>
+            <th class="text-center">Book Code</th>
+            <th class="text-center">Book Copies</th>
+            <th class="text-center">Available Copies</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr id="id-@book.Id">
+                <td class="text-center">@(i++)</td>
+                <td class="text-center">@book.Name</td>
+                <td class="text-center">@book.Code</td>
+                <td class="text-center">@book.Copies</td>
+                <td class="text-center">@context.GetBookCopiesInStock(book.Id)</td>
+
+                <td class="text-center">
+                    <a asp-action="Edit" asp-route-id="@book.Id" style="cursor:pointer" class="btn btn-warning">Edit</a>
+                    <a style="cursor:pointer" onclick="deleteBook(@book.Id)" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts{
+
+    <script>
+        function deleteBook(id) {
+            var bookId = `#id-${id}`
+            $.ajax({
+                url: '/Book/Delete/',
+                method: 'GET',
+                data: {
+                    Id: id
+                },
+                success: function (response) {
+                    let row = document.querySelector(bookId)
+                    let body = document.querySelector('tbody')
+                    body.removeChild(row);
+                    //Swal.fire({
+                    //    title: 'تم الحذف',
+                    //    text: `تم حذف الموظف`,
+                    //    icon: 'success',
+                    //    confirmButtonText: 'حسناً'
+                    //})
+                    console.log('Request succeeded:', response);
+                },
+                error: function (xhr, status, error) {
+                    console.log("Can't delete this book")
+                }
+            });
+        }
+    </script>
+}
