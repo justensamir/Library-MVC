@@ -4,60 +4,85 @@
 }
 @inject IBorrowerRepository context
 
-<div class="d-flex justify-content-end m-3 mb-4">
-    <a asp-action="Add" class="btn btn-primary">Add New Borrower</a>
-</div>
-<table class="table table-striped table-bordered ">
-    <thead>
-        <tr>
-            <th class="text-center">#</th>
-            <th class="text-center">Borrower Name</th>
-            <th class="text-center">Borrowed Books</th>
-            <th class="text-center">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var borrower in Model)
-        {
-            <tr id="id-@borrower.Code">
-                <td class="text-center">@(i++)</td>
-                <td class="text-center">@borrower.Name</td>
-                <td class="text-center">@context.GetBooksCount(borrower.Code)</td>
 
-                <td class="text-center">
-                    <a asp-action="Edit" asp-route-id="@borrower.Code" style="cursor:pointer" class="btn btn-warning">Edit</a>
-                    <a style="cursor:pointer" onclick="deleteBorrower(@borrower.Code)" class="btn btn-danger">Delete</a>
-                </td>
+<div class="table-responsive container">
+    <div class="d-flex justify-content-end my-4">
+        <a asp-action="Add" class="btn cst-btn">Add New Borrower</a>
+    </div>
+    <h3 class="p-3 table-header text-light text-center mb-0">Borrowers</h3>
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Borrower Name</th>
+                <th class="text-center">Borrowed Books</th>
+                <th class="text-center">Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var borrower in Model)
+            {
+                <tr id="id-@borrower.Code">
+                    <td class="text-center">@(i++)</td>
+                    <td class="text-center">@borrower.Name</td>
+                    <td class="text-center">@context.GetBooksCount(borrower.Code)</td>
 
+                    <td class="text-center">
+                        <a asp-action="Edit" asp-route-id="@borrower.Code" style="cursor:pointer" class="btn btn-warning">Edit</a>
+                        <a style="cursor:pointer" onclick="deleteBorrower(@borrower.Code)" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 @section Scripts{
 
     <script>
         function deleteBorrower(id) {
             var borrowerId = `#id-${id}`
-            $.ajax({
-                url: '/Borrower/Delete?id='+id,
-                method: 'GET',
-                success: function (response) {
-                    let row = document.querySelector(borrowerId)
-                    let body = document.querySelector('tbody')
-                    body.removeChild(row);
-                    //Swal.fire({
-                    //    title: 'تم الحذف',s
-                    //    text: `تم حذف الموظف`,
-                    //    icon: 'success',
-                    //    confirmButtonText: 'حسناً'
-                    //})
-                    console.log('Request succeeded:', response);
-                },
-                error: function (xhr, status, error) {
-                    console.log("Can't delete this book")
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You can't get it back",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Borrower/Delete?id=' + id,
+                        method: 'GET',
+                        success: function (response) {
+                            let row = document.querySelector(borrowerId)
+                            let body = document.querySelector('tbody')
+                            body.removeChild(row);
+                            Swal.fire({
+                                title: 'Deleted Successfully',
+                                text: `Borrower is deleted`,
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            })
+                            console.log('Request succeeded:', response);
+                        },
+                        error: function (xhr, status, error) {
+                            if (xhr.status == 400) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Delete Failed !!!',
+                                    text: 'this borrower has books',
+                                    confirmButtonText: 'Ok'
+                                })
+                            }
+                        }
+                    });
+                    
                 }
-            });
+            })
         }
     </script>
 }

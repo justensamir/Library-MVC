@@ -4,15 +4,18 @@
 
 <style>
     ul {
-        list-style: none
+        list-style: none;
+        padding: 0;
+        margin: 0
     }
 </style>
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">Retrieve Book</h5>
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="form">
 
-        <form asp-action="Retrieve" class="row g-3">
+        <h3 class="p-3 w-100 table-header text-light text-center mb-0">Retrieve Book</h3>
+
+        <form asp-action="Retrieve" style="border: 1px solid var(--second-color)" class="row g-3 w-100 m-0 p-3">
             <div class="col-12">
                 <label>Borrower Name</label>
                 <select asp-for="BorrowerCode" asp-items="@ViewBag.Borrowers" class="form-select">
@@ -25,10 +28,10 @@
                     <option>--Select Book Name--</option>
                 </select>
             </div>
-            <div asp-validation-summary="ModelOnly" class="text-danger summary"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger summary col-12"></div>
 
             <div class="form-group mt-2 d-flex justify-content-center">
-                <input type="submit" value="Retrieve" class="btn btn-primary w-50" />
+                <input type="submit" value="Retrieve" class="btn cst-btn w-50 mt-4" />
             </div>
         </form>
 

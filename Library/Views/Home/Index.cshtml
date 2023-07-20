@@ -2,7 +2,35 @@
     ViewData["Title"] = "Home Page";
 }
 
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="home">
+        <img src="~/images/library.jpg" class="h-100 w-100"/>
+        <div class="row cards gap-3 w-100 p-3 d-flex justify-content-center">
+            <a asp-controller="Book" asp-action="Index" class="card p-0" style="width: 18rem;">
+                <img src="~/images/books.jpg" class="card-img-top rounded-3" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-light">Books</h5>
+                </div>
+            </a>
+            <a asp-controller="Borrower" asp-action="Index" class="card p-0" style="width: 18rem;">
+                <img src="~/images/borrowers.jpg" class="card-img-top rounded-3" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-light">Borrowers</h5>
+                </div>
+            </a>
+            <a asp-controller="BorrowBook" asp-action="Borrow" class="card p-0" style="width: 18rem;">
+                <img src="~/images/borrow.jpg" class="card-img-top rounded-3" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-light">Borrow Books</h5>
+                </div>
+            </a>
+            <a asp-controller="BorrowBook" asp-action="Retrieve" class="card p-0" style="width: 18rem;">
+                <img src="~/images/retrieve.jpg" class="card-img-top rounded-3" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-light">Retrieve Books</h5>
+                </div>
+            </a>
+        </div>
+    </div>
 </div>

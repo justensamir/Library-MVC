@@ -3,11 +3,12 @@
 @{
 }
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">Add Borrower</h5>
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="form">
 
-        <form asp-action="Add" class="row g-3">
+        <h3 class="p-3 w-100 table-header text-light text-center mb-0">Add Borrower</h3>
+
+        <form asp-action="Add" style="border: 1px solid var(--second-color)" class="row g-3 w-100 m-0 p-3">
             <div class="col-12">
                 <label for="name" class="form-label">Name</label>
                 <input asp-for="Name" class="form-control" id="name" placeholder="Borrower Name">
@@ -15,7 +16,7 @@
             </div>
             
             <div class="form-group mt-2 d-flex justify-content-center">
-                <input type="submit" value="Add" class="btn btn-primary w-50" />
+                <input type="submit" value="Add" class="btn cst-btn w-50 mt-4" />
             </div>
         </form>
 

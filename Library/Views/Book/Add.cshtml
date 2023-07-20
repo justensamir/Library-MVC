@@ -1,72 +1,45 @@
 ﻿@model BookVM
 @{
-    
-}
-<style>
-    ul {
-        list-style: none
-    }
-</style>
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">Add Book</h5>
-        
-        <form asp-action="Add" class="row g-3">
+}
+
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="form">
+
+        <h3 class="p-3 w-100 table-header text-light text-center mb-0">Add Book</h3>
+
+        <form asp-action="Add" style="border: 1px solid var(--second-color)" class="row g-3 w-100 m-0 p-3">
             <div class="col-12">
+
                 <label for="code" class="form-label">Code</label>
                 <input type="number" asp-for="Code" class="form-control" id="code" placeholder="Book Code" min="1">
-                <span asp-validation-for="Code" class="text-danger"></span>
-            </div>
+                
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                
+            </>
             <div class="col-12">
                 <label for="name" class="form-label">Name</label>
                 <input asp-for="Name" class="form-control" id="name" placeholder="Book Name">
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+                
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                
+            </>
             <div class="col-12">
                 <label for="copy" class="form-label">Copies</label>
                 <input type="number" asp-for="Copies" class="form-control" id="copy" placeholder="Book Copies" min="1">
-                <span asp-validation-for="Copies" class="text-danger"></span>
-                <div asp-validation-summary="ModelOnly" class="text-danger summary"></div>
+                
+                    <span asp-validation-for="Copies" class="text-danger"></span>
+                    <div asp-validation-summary="ModelOnly" class="text-danger summary"></div>
+                
 
             </div>
-            
+
             <div class="form-group mt-2 d-flex justify-content-center">
-                <input type="submit" value="Add" class="btn btn-primary w-50"/>
+                <input type="submit" value="Add" class="btn cst-btn w-50 mt-4" />
             </div>
         </form>
-
     </div>
 </div>
-
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            

@@ -43,11 +43,13 @@ namespace Library.Controllers
                 ModelState.AddModelError("", "Borrower and Book are required");
                 return View(borrowBookVM);
             }
+            
             if (borrowBookVM.BorrowerCode == 0)
             {
                 ModelState.AddModelError("", "Borrower is required");
                 return View(borrowBookVM);
             }
+            
             if (borrowBookVM.BookId == 0)
             {
                 ModelState.AddModelError("", "Book is required");
@@ -66,7 +68,7 @@ namespace Library.Controllers
                 var borrowBook = mapper.Map<BorrowBook>(borrowBookVM);
                 
                 borrowBookRepository.Add(borrowBook);
-                return RedirectToAction("Index","Book");
+                return RedirectToAction("Borrow");
             }
             return View(borrowBookVM);
         }
@@ -116,7 +118,7 @@ namespace Library.Controllers
                     return View(borrowBookVM);
                 }
                 borrowBookRepository.Delete(borrowBook);
-                return RedirectToAction("Index", "Book");
+                return RedirectToAction("Retrieve");
             }
 
             return View(borrowBookVM);
